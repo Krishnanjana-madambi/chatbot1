@@ -2,8 +2,15 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { NhostProvider } from '@nhost/react';
 import { NhostApolloProvider } from '@nhost/react-apollo';
-import { nhost } from './nhost';
 import App from './App';
+import { NhostClient } from '@nhost/react'
+
+const nhost = new NhostClient({
+  subdomain: import.meta.env.VITE_NHOST_SUBDOMAIN,
+  region: import.meta.env.VITE_NHOST_REGION
+});
+
+
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
@@ -14,3 +21,5 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     </NhostProvider>
   </React.StrictMode>
 );
+
+

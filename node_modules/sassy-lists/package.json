@@ -1,0 +1,41 @@
+{
+  "name": "sassy-lists",
+  "title": "SassyLists",
+  "version": "3.0.1",
+  "description": "A Sass API for lists.",
+  "scripts": {
+    "build": "rm -rf dist/ && mkdir dist/ && cat stylesheets/**/* > dist/_SassyLists.scss",
+    "test": "mocha test/index.js",
+    "prepublish": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/at-import/SassyLists"
+  },
+  "keywords": [
+    "sass",
+    "scss",
+    "list",
+    "lists",
+    "eyeglass-module"
+  ],
+  "author": "Hugo Giraudel",
+  "main": "stylesheets/_SassyLists.scss",
+  "style": "stylesheets/_SassyLists.scss",
+  "eyeglass": {
+    "name": "SassyLists",
+    "sassDir": "stylesheets",
+    "needs": "*",
+    "exports": false
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/at-import/SassyLists/issues"
+  },
+  "homepage": "https://at-import.github.io/SassyLists",
+  "devDependencies": {
+    "mocha": "^2.3.4",
+    "sass-true": "^2.0.3",
+    "sassdoc": "^2.1.19"
+  }
+}

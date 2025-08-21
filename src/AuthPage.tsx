@@ -1,69 +1,88 @@
 import { useState } from "react";
-import { nhost } from "./nhost";  // import your Nhost client
+import { nhost } from "./nhost";
+import { useNavigate } from "react-router-dom";
+import "./AuthPage.css";
 
 export default function AuthPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [user, setUser] = useState<any>(null);
-  const [message, setMessage] = useState("");
+  const [isSignIn, setIsSignIn] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
-  // Sign Up function
-  const handleSignUp = async () => {
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+
     try {
-      const result = await nhost.auth.signUp({ email, password });
-      if (result.error) {
-        setMessage("Sign up failed: " + result.error.message);
+      let response;
+
+      if (isSignIn) {
+        console.log("Attempting Sign In with:", email);
+        response = await nhost.auth.signIn({ email, password });
       } else {
-        setMessage("Sign up successful! You can now sign in.");
+        console.log("Attempting Sign Up with:", email);
+        response = await nhost.auth.signUp({ email, password });
+      }
+
+      console.log("Nhost response:", response);
+
+      if (response.error) {
+        setError(response.error.message);
+      } else {
+        console.log("Auth successful, navigating to /chat");
+        navigate("/chat");
       }
     } catch (err: any) {
-      setMessage(err.message);
-    }
-  };
-
-  // Sign In function
-  const handleSignIn = async () => {
-    try {
-      const result = await nhost.auth.signIn({ email, password });
-      if (result.error) {
-        setMessage("Sign in failed: " + result.error.message);
-      } else {
-        const currentUser = nhost.auth.getUser();
-        setUser(currentUser);
-        setMessage("Sign in successful!");
-      }
-    } catch (err: any) {
-      setMessage(err.message);
+      console.error("Unexpected error:", err);
+      setError("Unexpected error: " + err.message);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h2>Nhost Auth Demo</h2>
-      <input
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <br />
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <br />
-      <button onClick={handleSignUp}>Sign Up</button>
-      <button onClick={handleSignIn}>Sign In</button>
-      <p>{message}</p>
-      {user && (
-        <div>
-          <h3>Logged in user:</h3>
-          <p>Email: {user.email}</p>
-          <p>ID: {user.id}</p>
+    <div className="auth-container">
+      <div className="auth-card">
+        <h1>{isSignIn ? "Sign In" : "Sign Up"}</h1>
+        <form onSubmit={handleSubmit}>
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+          <button type="submit" disabled={loading}>
+            {loading ? "Please wait..." : isSignIn ? "Sign In" : "Sign Up"}
+          </button>
+        </form>
+
+        {error && <p style={{ color: "red", marginTop: "10px" }}>{error}</p>}
+
+        <div className="switch-text">
+          {isSignIn ? (
+            <>
+              Don't have an account?{" "}
+              <span onClick={() => setIsSignIn(false)}>Sign Up</span>
+            </>
+          ) : (
+            <>
+              Already have an account?{" "}
+              <span onClick={() => setIsSignIn(true)}>Sign In</span>
+            </>
+          )}
         </div>
-      )}
+      </div>
     </div>
   );
 }

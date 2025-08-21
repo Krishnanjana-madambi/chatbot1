@@ -1,0 +1,102 @@
+/* Reset for consistent layout */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  height: 100%;
+  font-family: Arial, sans-serif;
+  background: #f4f6f8;
+}
+
+/* Container for the auth page */
+.auth-container {
+  display: flex;
+  justify-content: center;  /* Center horizontally */
+  align-items: center;      /* Center vertically */
+  height: 100vh;
+  width: 100%;
+  background: linear-gradient(135deg, #6a11cb, #2575fc);
+  background-size: cover;
+}
+
+/* Text below button */
+.switch-text {
+  font-size: 14px;
+  color: #000; /* Changed to black */
+  text-align: center;
+  margin-top: 10px;
+}
+
+.switch-text span {
+  color: #2575fc; /* Keep the clickable part blue */
+  cursor: pointer;
+  font-weight: bold;
+}
+
+/* Card styling */
+.auth-card {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  width: 350px;
+  max-width: 90%;
+  text-align: center;
+}
+
+.auth-card h1 {
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.auth-card input {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+.auth-card button {
+  width: 100%;
+  padding: 12px;
+  background: #2575fc;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.auth-card button:hover {
+  background: #1a5fd0;
+}
+
+.auth-card .switch {
+  margin-top: 1rem;
+  font-size: 14px;
+}
+
+.auth-card .switch span {
+  color: #2575fc;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .auth-card {
+    width: 90%;
+    padding: 1.5rem;
+  }
+
+  .auth-card input,
+  .auth-card button {
+    font-size: 14px;
+  }
+}
