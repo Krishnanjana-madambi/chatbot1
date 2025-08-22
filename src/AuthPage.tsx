@@ -17,26 +17,16 @@ export default function AuthPage() {
     setError("");
 
     try {
-      let response;
-
-      if (isSignIn) {
-        console.log("Attempting Sign In with:", email);
-        response = await nhost.auth.signIn({ email, password });
-      } else {
-        console.log("Attempting Sign Up with:", email);
-        response = await nhost.auth.signUp({ email, password });
-      }
-
-      console.log("Nhost response:", response);
+      const response = isSignIn
+        ? await nhost.auth.signIn({ email, password })
+        : await nhost.auth.signUp({ email, password });
 
       if (response.error) {
         setError(response.error.message);
       } else {
-        console.log("Auth successful, navigating to /chat");
         navigate("/chat");
       }
     } catch (err: any) {
-      console.error("Unexpected error:", err);
       setError("Unexpected error: " + err.message);
     } finally {
       setLoading(false);
@@ -67,7 +57,7 @@ export default function AuthPage() {
           </button>
         </form>
 
-        {error && <p style={{ color: "red", marginTop: "10px" }}>{error}</p>}
+        {error && <p style={{ color: "red" }}>{error}</p>}
 
         <div className="switch-text">
           {isSignIn ? (
